@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Memorize-me</title>
+		<style>
+		/*CSS */
+			/* Game square mechanics */
+			#game{
+				width:400px;
+				height:400px;
+				display:flex;
+				flex-direction:row;
+				flex-wrap:wrap;
+				border:1px solid red;
+			}
+			
+			.game-square{
+				box-sizing: border-box;
+				border: 1px solid #000;
+				width: 100px;
+				height: 100px;
+				position: relative;
+				overflow: hidden;
+			}
+			.game-square>div{
+				width: 100%;
+				height: 200%;
+				position: absolute;
+				top: 0;
+			}
+			.game-square>div>div:first-child{
+				background-color: gray;
+			}
+			.flip>div{
+				top: 100%;
+			}
+			
+			/* Square styles */
+			.square-0{
+				background-color: aqua;
+			}
+			.square-1{
+				background-color: bisque;
+			}
+			.square-2{
+				background-color: blue;
+			}
+			.square-3{
+				background-color: blueviolet;
+			}
+			.square-4{
+				background-color: brown;
+			}
+			.square-5{
+				background-color: cadetblue;
+			}
+			.square-6{
+				background-color: chatreuse;
+			}
+			.square-7{
+				background-color: chocolate;
+			}
+			.square-8{
+				background-color: coral;
+			}
+			.square-9{
+				background-color: cornflowerblue;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- HTML -->
+		<div class="container">
+			<div id="game">
+				<!-- Quadrados -->
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="game-square">
+					<div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+			</div><!-- div #game -->
+			<button id="reset-button">recomeçar</button>
+		</div>
+		<script>
+			//JS
+			//Botão reset
+			var resetButton = document.getElementById("reset-button");
+			//Cor dos quadrados
+			var colors = [];
+			for(var i = 0; i < 10; i++){
+				colors.push("square-" + i);
+			}
+			//Objeto que representa um quadrado
+			function GameSquare(el, color){
+				this.el = el;
+				this.isOpen = false;
+				this.isLocked = false;
+				this.el.addEventListener("click", this, false);
+				this.setColor(color);
+			}
+			//Método chamado toda vez que um evento ocorre
+			GameSquare.prototype.handleEvent = function(e){
+				switch(e.type){
+					case "click":
+					if(this.isOpen || this.isLocked){
+						return;
+					}
+					this.isOpen = true;
+					this.el.classList.add("flip");
+				}
+			}
+			//Método que reseta o objeto
+			GameSquare.prototype.reset = function(){
+				this.isOpen = false;
+				this.isLocked = false;
+				this.el.classList.remove("flip");
+			}
+			//Método que trava um objeto quando há um par, impedindo que ele se feche
+			GameSquare.prototype.lock = function(){
+				this.isLocked = true;
+				this.isOpen = true;
+			}
+			//Método que define uma cor para um objeto
+			GameSquare.prototype.setColor = function(color){
+				this.el.children[0].children[1].classList.remove(this.color);
+				this.color = color;
+				this.el.children[0].children[1].classList.add(color);
+			}
+			
+			//Setup do jogo
+			var gameSquares = [];
+			
+			function setupGame(){
+				var array = document.getElementsByClassName("game-square");
+				for(var i = 0; i < array.length; i++){
+					gameSquares.push(new GameSquare(array[i], colors[0]));
+				}
+			}
+			
+			setupGame();
+		</script>
+	</body>
+</html>
